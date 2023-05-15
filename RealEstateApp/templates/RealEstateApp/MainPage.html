@@ -1,0 +1,123 @@
+{%extends 'base_layout.html' %}
+{% load static %}
+{% load humanize %}
+{% load layout_filters %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/MainPage.css' %}">
+{% endblock %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block header %}
+{% include 'RealEstateApp/header.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="page__slogan slogan">
+    <div class="slogan__container _container">
+        <div class="slogan__body">
+            <div class="slogan__background">
+                <div class="slogan__title">Ваш дом - наша забота!
+                    Найдём идеальное жильё для вас уже сегодня
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page__selling selling">
+    <div class="selling__container _container">
+        <div class="selling__header">
+            <div class="selling__title">
+                Продажа
+            </div>
+        </div>
+        <div class="selling__body">
+            <div class="selling__slider slider-selling">
+                {% for sale_obj in sale_list %}
+                <div class="slider-selling__item">
+                    <div class="slider_selling__photos">
+                        <img src="{% static 'images/room1.png'%}" alt="">
+                    </div>
+                    <div class="slider-selling__info">
+                        <div class="slider-selling__params">
+                            <a href="{{sale_obj.get_absolute_url}}" class="params__link">{{sale_obj.rooms}} комн. кв. , {{sale_obj.area|floatformat:0}} кв.м., {{sale_obj.floor}} этаж</a>
+                        </div>
+                        <div class="slider-selling__addres">
+                            <a href="{{sale_obj.get_absolute_url}}" class="addres__link">{{sale_obj.city}}, {{sale_obj.district}}, {{sale_obj.address}}</a>
+                        </div>
+                        <div class="slider-selling__price">
+                            <div class="usually__price">
+                                <a href="{{sale_obj.get_absolute_url}}" class="usually_price__link">{{sale_obj.price|intcomma}} P.</a>
+                            </div>
+                            <div class="square__price">
+                                <a href="{{sale_obj.get_absolute_url}}" class="square_price__link">{{ sale_obj.price|div:sale_obj.area|floatformat:0|intcomma}} P./кв.м</a>
+                            </div>
+                        </div>
+                        <div class="slider_selling__text">
+                            <a href="{{sale_obj.get_absolute_url}}" class="text__link">{{sale_obj.description|truncatechars:300}}</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="selling__footer">
+            <div class="selling__button">
+                <a href="#" class="selling__link">Больше объявлений</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page__arenda arenda">
+    <div class="arenda__container _container">
+        <div class="arenda__header">
+            <div class="arenda__title">
+                Аренда
+            </div>
+        </div>
+        <div class="arenda__body">
+            <div class="arenda__slider slider-arenda">
+                {% for rental_obj in rental_list %}
+                <div class="slider-arenda__item">
+                    <div class="slider_arenda__photos">
+                        <img src="{% static 'images/room1.png'%}" alt="">
+                    </div>
+                    <div class="slider-arenda__info">
+                        <div class="slider-arenda__params">
+                            <a href="{{rental_obj.get_absolute_url}}" class="params__link">{{rental_obj.rooms}} комн. кв. , {{rental_obj.area|floatformat:0}} кв.м., {{rental_obj.floor}} этаж</a>
+                        </div>
+                        <div class="slider-arenda__addres">
+                            <a href="{{rental_obj.get_absolute_url}}" class="addres__link">{{rental_obj.city}}, {{rental_obj.district}}, {{rental_obj.address}}</a>
+                        </div>
+                        <div class="slider-arenda__price">
+                            <div class="usually_price">
+                                <a href="{{rental_obj.get_absolute_url}}" class="usually_price__link">{{rental_obj.price}} P./мес.</a>
+                            </div>
+                        </div>
+                        <div class="slider_arenda__text">
+                            <a href="{{rental_obj.get_absolute_url}}" class="text__link">{{rental_obj.description|truncatechars:300}}</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="arenda__footer">
+            <div class="arenda__button">
+                <a href="" class="arenda__link">Больше объявлений</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'RealEstateApp/footer.html' %}
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{% static 'js/MainPage.js'%}"></script>
+{% endblock %}

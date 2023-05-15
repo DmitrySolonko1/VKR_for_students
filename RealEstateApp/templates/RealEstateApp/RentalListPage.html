@@ -1,0 +1,322 @@
+{%extends 'base_layout.html' %}
+{% load static %}
+{% load humanize %}
+{% load spurl %}
+{% load layout_filters %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/RentalList.css' %}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'multiselect/src/jquery.multi-select.js' %}"></script>
+{% endblock %}
+
+{% block title %}Аренда: список объектов{% endblock %}
+
+{% block header %}
+{% include 'RealEstateApp/header.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="page__arenda arenda">
+    <div class="arenda__container _container">
+        <div class="arenda__header">
+            <div class="arenda__title">
+                Аренда
+            </div>
+        </div>
+
+        <div class="filter__block">
+            <div class="filter__body">
+                <form method="get" class="filter__form">
+                    <div class="filter__body">
+                        <div class="filter__row">
+                            <div class="filter__column">
+                                <div class="filter__filter">
+                                    <div class="filter__label">Район</div>
+                                    <div class="filter__input">
+                                        {{rental_filter.form.district}}
+                                        <script>
+                                $('#id_district').multiSelect();
+
+
+
+
+
+
+
+
+
+
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="filter__filter">
+                                    <div class="filter__label">Кол-во комнат</div>
+                                    <div class="filter__input">
+                                        {{rental_filter.form.rooms}}
+                                        <script>
+                                $('#id_rooms').multiSelect();
+
+
+
+
+
+
+
+
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="filter__filter">
+                                    <div class="filter__label">Тип недвижимости</div>
+                                    <div class="filter__input">
+                                        {{rental_filter.form.type}}
+                                        <script>
+                                $('#id_type').multiSelect();
+
+
+
+
+
+
+
+
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="filter__filter">
+                                    <div class="filter__label">Планировка</div>
+                                    <div class="filter__input">
+                                        {{rental_filter.form.layout}}
+                                        <script>
+                                $('#id_layout').multiSelect();
+
+
+
+
+
+
+
+
+                                        </script>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="filter__column">
+                                <div class="filter__filter">
+                                    <div class="filter__label">Ремонт</div>
+                                    <div class="filter__input">
+                                        {{rental_filter.form.finishing}}
+                                        <script>
+                                $('#id_finishing').multiSelect();
+
+
+
+
+
+
+
+
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="filter__filter">
+                                    <div class="filter__label">Сан.узел</div>
+                                    <div class="filter__input">
+                                        {{rental_filter.form.bathroom}}
+                                        <script>
+                                $('#id_bathroom').multiSelect();
+
+
+
+
+
+
+
+
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="filter__filter">
+                                    <div class="filter__label">Балкон/Лоджия</div>
+                                    <div class="filter__input">
+                                        {{rental_filter.form.balcony}}
+                                        <script>
+                                $('#id_balcony').multiSelect();
+
+
+
+
+
+
+
+
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="filter__filter">
+                                    <div class="filter__label">С животными</div>
+                                    <div class="filter__input">
+                                        {{rental_filter.form.animals}}
+                                        <script>
+                                $('#id_animals').multiSelect();
+
+
+
+
+
+
+
+
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="filter__column">
+                                <div class="filter__filter">
+                                    <div class="filter__label">С детьми</div>
+                                    <div class="filter__input">
+                                        {{rental_filter.form.children}}
+                                        <script>
+                                $('#id_children').multiSelect();
+
+
+
+
+
+
+
+
+                                        </script>
+
+                                    </div>
+                                </div>
+                                <div class="filter__filter">
+                                    <div class="filter__label">Парковка</div>
+                                    <div class="filter__input">
+                                        {{rental_filter.form.parking}}
+                                        <script>
+                                $('#id_parking').multiSelect();
+
+
+
+
+
+
+
+
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="filter__filter input_filter">
+                                    <div class="filter__label input_label">Цена</div>
+                                    <div class="filter__input input_data">
+                                        {{rental_filter.form.price}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="filter__column input_column">
+
+                                <div class="filter__filter input_filter">
+                                    <div class="filter__label input_label">Площадь</div>
+                                    <div class="filter__input input_data">
+                                        {{rental_filter.form.area}}
+                                    </div>
+                                </div>
+                                <div class="filter__filter input_filter">
+                                    <div class="filter__label input_label input_filter">Этаж</div>
+                                    <div class="filter__input input_data">
+                                        {{rental_filter.form.floor}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter__buttons">
+                        <button type="submit" class="find__button">Подобрать</button>
+                        <a href="{% url 'rental_list' %}" class="clear__button">Сбросить</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% for rental_obj in rental_objects %}
+        <div class="arenda__body">
+            <div class="arenda__slider slider-arenda">
+                <div class="slider-arenda__item">
+                    <div class="slider_arenda__photos">
+                        <img src="{% static 'images/room1.png'%}" alt="">
+                    </div>
+                    <div class="slider-arenda__info">
+                        <div class="slider-arenda__params">
+                            <a href="{{rental_obj.get_absolute_url}}" class="params__link">{{rental_obj.rooms}} комн.
+                                кв. , {{rental_obj.area|floatformat:0}} кв.м., {{rental_obj.floor}} этаж</a>
+                        </div>
+                        <div class="slider-arenda__addres">
+                            <a href="{{rental_obj.get_absolute_url}}" class="addres__link">{{rental_obj.city}},
+                                {{rental_obj.district}}, {{rental_obj.address}}</a>
+                        </div>
+                        <div class="slider-arenda__price">
+                            <div class="usually_price">
+                                <a href="{{rental_obj.get_absolute_url}}" class="usually_price__link">{{rental_obj.price}}
+                                    P./мес.</a>
+                            </div>
+                        </div>
+                        <div class="slider_arenda__text">
+                            <a href="{{rental_obj.get_absolute_url}}" class="text__link">{{rental_obj.description|truncatechars:300}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="page__navigation pagination">
+            <ul class="pagination__list">
+                {% if page_obj.has_previous %}
+                <li class="pagination__item">
+                    <a class="pagination__link"
+                       href="{% spurl path=request.get_full_path query=request.GET set_query='page={{page_obj.previous_page_number}}'%}"
+                       tabindex="-1">Пердыдущая</a>
+                </li>
+                {% endif %}
+                {% for p in page_obj.paginator.page_range %}
+
+                {% if page_obj.number == p %}
+                <li class="pagination__item " aria-current="page">
+                    <a class="pagination__link active"
+                       href="{% spurl path=request.get_full_path query=request.GET set_query='page={{ p }}'%}">{{p}}</a>
+                </li>
+                {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                <li class="pagination__item"><a
+                        class="pagination__link"
+                        href="{% spurl path=request.get_full_path query=request.GET set_query='page={{ p }}'%}">{{p}}</a>
+                </li>
+                {% endif %}
+
+
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="pagination__item">
+                    <a class="pagination__link"
+                       href="{% spurl path=request.get_full_path query=request.GET set_query='page={{ page_obj.next_page_number }}'%}"
+                       tabindex="-1">Следующая</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+{% include 'RealEstateApp/footer.html' %}
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{% static 'js/script_for_filter.js' %}"></script>
+{% endblock %}

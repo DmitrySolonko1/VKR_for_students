@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+    {% block styles %}
+
+    {% endblock %}
+    <title>{% block title %} {% endblock %}</title>
+</head>
+<body>
+<div class="wrapper">
+    {% block header %}
+
+    {% endblock %}
+
+    <main class="main">
+        {% block content %}
+
+        {% endblock %}
+    </main>
+
+    {% block footer %}
+
+    {% endblock %}
+</div>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="{% static 'js/slick.min.js' %}"></script>
+	<script src="{% static 'js/base.js' %}"></script>
+{% block scripts %}
+
+{% endblock %}
+</body>
+</html>

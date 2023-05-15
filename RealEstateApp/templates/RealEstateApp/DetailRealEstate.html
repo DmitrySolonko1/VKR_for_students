@@ -1,0 +1,141 @@
+{%extends 'base_layout.html' %}
+{% load static %}
+{% load humanize %}
+{% load layout_filters %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/DetailRealEstate.css' %}">
+{% endblock %}
+
+{% block title %}Объект: {{title}} {% endblock %}
+
+{% block header %}
+{% include 'RealEstateApp/header.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="page__detail detail">
+    <div class="detail__container _container">
+        <div class="detail__body">
+            <div class="detail__main main-block">
+                <div class="main-block__header">
+                    <div class="main-block__params">{{object.rooms}} комн. кв. , {{object.area|floatformat:0}} кв.м.,
+                        {{object.floor}} этаж
+                    </div>
+                    <div class="main-block__category">{{object.category}}</div>
+                </div>
+                <div class="main-block__body">
+                    <div class="main-block__address">
+                        {{object.city}}, {{object.district}}, {{object.address}}
+                    </div>
+                    <div class="main-block__photos photos">
+                        <div class="photos__slider">
+                            <div class="photo"><img src="{% static 'images/room1.png'%}" alt=""></div>
+                            <!--                            <div class="photo"><img src="{% static 'images/room1.png'%}" alt=""></div>-->
+                            <!--                        <div class="photo"><img src="{% static 'images/room1.png'%}" alt=""></div>-->
+                        </div>
+                    </div>
+                    <div class="main-block__description">
+                        {{object.description}}
+                    </div>
+                </div>
+            </div>
+            <div class="detail__additional additional-block">
+
+                <div class="additional-block__first first-block">
+                    {% if object.category|lower == "продажа" %}
+                    <div class="first-block__price">{{object.price|intcomma}} P.</div>
+                    <div class="first-block__square-price">{{ object.price|div:object.area|floatformat:0|intcomma}}
+                        P./кв.м
+                    </div>
+                    {% else %}
+                    <div class="first-block__price">{{object.price|intcomma}} P./мес</div>
+                    {% endif %}
+                    <div class="button__call">
+                        <a href="" class="call__link">Позвонить</a>
+                    </div>
+                    <div class="button__book">
+                        <a href="" class="book__link">Забронировать</a>
+                    </div>
+                </div>
+
+                <div class="additional-block__second second-block">
+                    <div class="second-block__header">
+                        <div class="second-block__title">Дополнительная информация</div>
+                    </div>
+                    <div class="second-block__body">
+                        {% if object.category|lower == "продажа" %}
+                        <div class="second-body__info">
+                            <div class="second-block__label">тип:</div>
+                            <div class="second-block__text">{{object.type}}</div>
+                        </div>
+                        <div class="second-body__info">
+                            <div class="second-block__label">планировка:</div>
+                            <div class="second-block__text">{{object.layout}}</div>
+                        </div>
+                        <div class="second-body__info">
+                            <div class="second-block__label">ремонт:</div>
+                            <div class="second-block__text">{{object.finishing}}</div>
+                        </div>
+                        <div class="second-body__info">
+                            <div class="second-block__label">сан.узел:</div>
+                            <div class="second-block__text">{{object.bathroom}}</div>
+                        </div>
+                        <div class="second-body__info">
+                            <div class="second-block__label">балкон/лоджия:</div>
+                            <div class="second-block__text">{{object.balcony}}</div>
+                        </div>
+                        <div class="second-body__info">
+                            <div class="second-block__label">парковка:</div>
+                            <div class="second-block__text">{{object.parking}}</div>
+                        </div>
+                        {% else %}
+                        <div class="second-body__info">
+                            <div class="second-block__label">планировка:</div>
+                            <div class="second-block__text">{{object.layout}}</div>
+                        </div>
+                        <div class="second-body__info">
+                            <div class="second-block__label">ремонт:</div>
+                            <div class="second-block__text">{{object.finishing}}</div>
+                        </div>
+                        <div class="second-body__info">
+                            <div class="second-block__label">сан.узел:</div>
+                            <div class="second-block__text">{{object.bathroom}}</div>
+                        </div>
+                        <div class="second-body__info">
+                            <div class="second-block__label">балкон/лоджия:</div>
+                            <div class="second-block__text">{{object.balcony}}</div>
+                        </div>
+                        <div class="second-body__info">
+                            <div class="second-block__label">парковка</div>
+                            <div class="second-block__text">{{object.parking}}</div>
+                        </div>
+                        {% if object.children %}
+                        <div class="second-body__info">
+                            <div class="second-block__text">Можно с детьми</div>
+                        </div>
+                        {% endif %}
+                        {% if object.animals %}
+                        <div class="second-body__info">
+                            <div class="second-block__text">Можно c животными</div>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="detail__map">
+            {{ map|safe }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+{% include 'RealEstateApp/footer.html' %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/DetailRealEstate.js'%}"></script>
+{% endblock %}

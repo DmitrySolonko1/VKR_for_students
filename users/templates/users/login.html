@@ -1,0 +1,58 @@
+{%extends 'base_layout.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+{% endblock %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block header %}
+{% include 'RealEstateApp/header.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="authorization__container _container">
+    <div class="authorization__title">Авторизация</div>
+    <div class="authorization__form">
+        <form method="post">
+            {% csrf_token %}
+            {% for f in form %}
+            <div class="form__data">
+                <div class="form__label">
+                    <label class="label__form" for="{{f.id_for_label}}">{{f.label}}:</label>
+                </div>
+                <div class="form__form">{{f}}</div>
+            </div>
+            {% endfor %}
+            <div class="authorization__button">
+                <button class="button__form" type="submit">Войти</button>
+            </div>
+
+        </form>
+        <div class="registration">
+            <span class="registration__label">У вас ещё нет аккаунта?</span>
+            <a href="{% url 'registrations' %}" class="registartion__link">Зарегистрироваться</a>
+        </div>
+    </div>
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+    <label>
+        <input type="checkbox" class="alertCheckbox" autocomplete="off"/>
+        <div class="alert error">
+            <span class="alertClose">X</span>
+            <span class="alertText">{{message}}
+    <br class="clear"/></span>
+        </div>
+    </label>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'RealEstateApp/footer.html' %}
+{% endblock %}

@@ -1,0 +1,45 @@
+{% load static %}
+<header class="header">
+    <div class="header__container _container">
+        <div class="header__body">
+            <nav class="header__menu">
+                <ul class="header__list">
+                    <li class="header__item ">
+                        <a href="/" class="header__link">Главная</a>
+                    </li>
+                    <li class="header__item">
+                        <a href="{% url 'rental_list' %}" class="header__link ">Аренда</a>
+                    </li>
+                    <li class="header__item">
+                        <a href="#" class="header__link">Покупка</a>
+                    </li>
+                    <li class="header__item">
+                        <a href="#" class="header__link ">Блог</a>
+                    </li>
+                    <li class="header__item">
+                        <a href="#" class="header__link ">Контакты</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="header__buttons">
+                {% if user.is_staff %}
+                <div class="add_order__button">
+                    <a href="#" class="add_order__link">Разместить объявление</a>
+                </div>
+                {% endif %}
+                {% if user.is_authenticated %}
+                <div class="login__button">
+                    <a href="{%url 'logout' %}" class="login__link">{{user.name}} </a>
+                </div>
+                {% else %}
+                <div class="login__button">
+                    <a href="{%url 'login' %}" class="login__link">Войти</a>
+                </div>
+                {%endif %}
+            </div>
+            <div class="header__burger">
+                <span></span>
+            </div>
+        </div>
+    </div>
+</header>
