@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import RealEstate, Category, Photo
+from .models import RealEstate, Category, Photo, TimeSlot, Booking
 
 
 # Register your models here.
@@ -34,8 +34,17 @@ class PhotoAdmin(admin.ModelAdmin):
     get_photo.short_description = 'Фото'
 
 
+
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ['object', 'time_slot', 'client_name', 'realtor']
+    list_display_links = ['object', 'time_slot', 'client_name', 'realtor']
+
+
+
+
 admin.site.register(RealEstate, RealEstateAdmin)
 admin.site.register(Category)
+admin.site.register(Booking, BookingAdmin)
 admin.site.register(Photo, PhotoAdmin)
 
 admin.site.site_title = 'Управление сервисом'

@@ -1,9 +1,10 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.shortcuts import render, redirect
+from django.views.generic import ListView, DetailView, CreateView, TemplateView
 from .models import RealEstate
 import folium
 from geopy.geocoders import Nominatim
 from .filters import *
+from .forms import DateTimeForm
 
 
 # Create your views here.
@@ -159,3 +160,46 @@ class SellingRealEstatesPage(ListView):
     def get_queryset(self):
         queryset = super().get_queryset().filter(category__name='Продажа').order_by('-pk')
         return RentalFilter(self.request.GET, queryset=queryset).qs
+
+
+# def book_object(request, object_id):
+#     object = RealEstate.objects.get(pk=object_id)
+#     if request.method == 'POST':
+#         form = DateTimeForm(request.POST)
+#         if form.is_valid():
+#             time_slot = form.cleaned_data['time_slot']
+#             if time_slot.is_available:
+#                 booking = Booking.objects.create(object=object, time_slot=time_slot, client_name=form.cleaned_data['client_name'])
+#                 time_slot.is_available = False
+#                 time_slot.save()
+#                 return redirect('confirmation', booking_id=booking.id)
+#     else:
+#         form = DateTimeForm()
+#     return render(request, 'RealEstateApp/BookingObject.html', {'object': object, 'form': form})
+
+class BookingObject(DetailView):
+    model = RealEstate
+    template_name = 'RealEstateApp/BookingObject.html'
+    context_object_name = 'object'
+    form_class = DateTimeForm  # Добавляем кастомную форму
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = DateTimeForm()  # Добавляем форму в контекст
+        return context
+
+    def post(self, request, pk):
+        if request.method == 'POST':
+            form = DateTimeForm(request.POST)
+            if form.is_valid():
+                time_slot = TimeSlot.objects.create(time=form.cleaned_data['time'])
+                booking = Booking.objects.create(object=self.get_object(), time_slot=time_slot,
+                                                 client_name=request.user, realtor=self.get_object().realtor)
+                return redirect('confirmation')
+            else:
+                form = DateTimeForm()
+                return redirect('main_page')
+
+
+class BookingConfirmation(TemplateView):
+    template_name = 'RealEstateApp/BookingConfirmation.html'

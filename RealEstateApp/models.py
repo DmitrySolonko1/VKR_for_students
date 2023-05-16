@@ -82,7 +82,7 @@ class RealEstate(models.Model):
     status = models.CharField(max_length=50, choices=CHOICE_STATUS, verbose_name='Статус')
 
     def __str__(self):
-        return str(self.id)
+        return "ID объекта: "+str(self.pk)+'; '+str(self.district) + ", " + str(self.address)
 
     def get_absolute_url(self):
         return reverse("RealEstate_object", kwargs={'pk': self.pk})
@@ -113,3 +113,30 @@ class Photo(models.Model):
     class Meta:
         verbose_name = 'Фото'
         verbose_name_plural = 'Фотографии'
+
+
+class TimeSlot(models.Model):
+    time = models.DateTimeField(verbose_name='Дата и время бронирования')
+    is_available = models.BooleanField(default=True, verbose_name='Статус')
+
+    def __str__(self):
+        return str(self.time)
+
+    class Meta:
+        verbose_name = 'Время бронирования'
+        verbose_name_plural = 'Время бронирования'
+
+
+class Booking(models.Model):
+    object = models.ForeignKey(RealEstate, on_delete=models.CASCADE, verbose_name='Объект для брони')
+    time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE, verbose_name='Время бронирования')
+    client_name = models.CharField(max_length=255, verbose_name='Клиент')
+    realtor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Риелтор',
+                                limit_choices_to={'is_staff': True}, )
+
+    def __str__(self):
+        return self.client_name
+
+    class Meta:
+        verbose_name = 'Бронь'
+        verbose_name_plural = 'Бронь'

@@ -1,0 +1,58 @@
+.booking__container {
+
+}
+
+.booking__body {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+.booking__title {
+    font-size: 35px;
+    line-height: 40px;
+    padding: 10px;
+    color: black;
+    font-weight: 600;
+}
+label{
+    font-size: 25px;
+    font-weight: 200;
+    line-height: 25px;
+    padding: 15px;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+input{
+    margin-left: 70px;
+    padding: 5px;
+    text-align: center;
+    border: 2px solid black;
+}
+.booking__form {
+}
+.booking__button{
+  margin: 20px 0;
+  padding: 10px;
+  background: #0468FF;
+  height: 30px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+h1.confirmation{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 50px;
+    line-height: 60px;
+    padding: 150px;
+}

@@ -50,12 +50,24 @@
                     {% else %}
                     <div class="first-block__price">{{object.price|intcomma}} P./мес</div>
                     {% endif %}
+                    {% if user.is_authenticated %}
                     <div class="button__call">
-                        <a href="" class="call__link">Позвонить</a>
+                        <a href="tel:
+                         +{{object.realtor.phone_number}}" class="call__link">Позвонить</a>
                     </div>
+
                     <div class="button__book">
-                        <a href="" class="book__link">Забронировать</a>
+                        <a href="{% url 'book_object' pk=object.pk%}" class="book__link">Забронировать</a>
                     </div>
+                    {% else %}
+                    <div class="button__call disabled">
+                        <a href="#" class="call__link disabled">Позвонить</a>
+                    </div>
+
+                    <div class="button__book disabled">
+                        <a href="#" class="book__link disabled">Забронировать</a>
+                    </div>
+                    {% endif %}
                 </div>
 
                 <div class="additional-block__second second-block">

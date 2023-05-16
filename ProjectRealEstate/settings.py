@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'bootstrap_datepicker_plus',
     'users.apps.UsersConfig',
     'RealEstateApp.apps.RealestateappConfig',
     'spurl',
