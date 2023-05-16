@@ -20,7 +20,7 @@
     <div class="arenda__container _container">
         <div class="arenda__header">
             <div class="arenda__title">
-                Аренда
+                Покупка
             </div>
         </div>
 
@@ -33,18 +33,9 @@
                                 <div class="filter__filter">
                                     <div class="filter__label">Район</div>
                                     <div class="filter__input">
-                                        {{rental_filter.form.district}}
+                                        {{selling_filter.form.district}}
                                         <script>
                                 $('#id_district').multiSelect();
-
-
-
-
-
-
-
-
-
 
                                         </script>
                                     </div>
@@ -52,16 +43,9 @@
                                 <div class="filter__filter">
                                     <div class="filter__label">Кол-во комнат</div>
                                     <div class="filter__input">
-                                        {{rental_filter.form.rooms}}
+                                        {{selling_filter.form.rooms}}
                                         <script>
                                 $('#id_rooms').multiSelect();
-
-
-
-
-
-
-
 
                                         </script>
                                     </div>
@@ -69,16 +53,9 @@
                                 <div class="filter__filter">
                                     <div class="filter__label">Тип недвижимости</div>
                                     <div class="filter__input">
-                                        {{rental_filter.form.type}}
+                                        {{selling_filter.form.type}}
                                         <script>
                                 $('#id_type').multiSelect();
-
-
-
-
-
-
-
 
                                         </script>
                                     </div>
@@ -86,16 +63,9 @@
                                 <div class="filter__filter">
                                     <div class="filter__label">Планировка</div>
                                     <div class="filter__input">
-                                        {{rental_filter.form.layout}}
+                                        {{selling_filter.form.layout}}
                                         <script>
                                 $('#id_layout').multiSelect();
-
-
-
-
-
-
-
 
                                         </script>
                                     </div>
@@ -106,16 +76,9 @@
                                 <div class="filter__filter">
                                     <div class="filter__label">Ремонт</div>
                                     <div class="filter__input">
-                                        {{rental_filter.form.finishing}}
+                                        {{selling_filter.form.finishing}}
                                         <script>
                                 $('#id_finishing').multiSelect();
-
-
-
-
-
-
-
 
                                         </script>
                                     </div>
@@ -123,16 +86,9 @@
                                 <div class="filter__filter">
                                     <div class="filter__label">Сан.узел</div>
                                     <div class="filter__input">
-                                        {{rental_filter.form.bathroom}}
+                                        {{selling_filter.form.bathroom}}
                                         <script>
                                 $('#id_bathroom').multiSelect();
-
-
-
-
-
-
-
 
                                         </script>
                                     </div>
@@ -140,93 +96,43 @@
                                 <div class="filter__filter">
                                     <div class="filter__label">Балкон/Лоджия</div>
                                     <div class="filter__input">
-                                        {{rental_filter.form.balcony}}
+                                        {{selling_filter.form.balcony}}
                                         <script>
                                 $('#id_balcony').multiSelect();
 
-
-
-
-
-
-
-
                                         </script>
-                                    </div>
-                                </div>
-                                <div class="filter__filter">
-                                    <div class="filter__label">С животными</div>
-                                    <div class="filter__input">
-                                        {{rental_filter.form.animals}}
-                                        <script>
-                                $('#id_animals').multiSelect();
-
-
-
-
-
-
-
-
-                                        </script>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="filter__column">
-                                <div class="filter__filter">
-                                    <div class="filter__label">С детьми</div>
-                                    <div class="filter__input">
-                                        {{rental_filter.form.children}}
-                                        <script>
-                                $('#id_children').multiSelect();
-
-
-
-
-
-
-
-
-                                        </script>
-
                                     </div>
                                 </div>
                                 <div class="filter__filter">
                                     <div class="filter__label">Парковка</div>
                                     <div class="filter__input">
-                                        {{rental_filter.form.parking}}
+                                        {{selling_filter.form.parking}}
                                         <script>
                                 $('#id_parking').multiSelect();
 
-
-
-
-
-
-
-
                                         </script>
-                                    </div>
-                                </div>
-                                <div class="filter__filter input_filter">
-                                    <div class="filter__label input_label">Цена</div>
-                                    <div class="filter__input input_data">
-                                        {{rental_filter.form.price}}
                                     </div>
                                 </div>
                             </div>
                             <div class="filter__column input_column">
 
                                 <div class="filter__filter input_filter">
+                                    <div class="filter__label input_label">Цена</div>
+                                    <div class="filter__input input_data">
+                                        {{selling_filter.form.price}}
+                                    </div>
+                                </div>
+
+                                <div class="filter__filter input_filter">
                                     <div class="filter__label input_label">Площадь</div>
                                     <div class="filter__input input_data">
-                                        {{rental_filter.form.area}}
+                                        {{selling_filter.form.area}}
                                     </div>
                                 </div>
                                 <div class="filter__filter input_filter">
                                     <div class="filter__label input_label input_filter">Этаж</div>
                                     <div class="filter__input input_data">
-                                        {{rental_filter.form.floor}}
+                                        {{selling_filter.form.floor}}
                                     </div>
                                 </div>
                             </div>
@@ -234,13 +140,13 @@
                     </div>
                     <div class="filter__buttons">
                         <button type="submit" class="find__button">Подобрать</button>
-                        <a href="{% url 'rental_list' %}" class="clear__button">Сбросить</a>
+                        <a href="{% url 'selling_list' %}" class="clear__button">Сбросить</a>
                     </div>
                 </form>
             </div>
         </div>
 
-        {% for rental_obj in rental_objects %}
+        {% for rental_obj in selling_objects %}
         <div class="arenda__body">
             <div class="arenda__slider slider-arenda">
                 <div class="slider-arenda__item">

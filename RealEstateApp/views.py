@@ -76,9 +76,86 @@ class RentalRealEstatesPage(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['rental_filter'] = RentalFilter(self.request.GET,
-                                                queryset=RealEstate.objects.filter(category__name='Аренда').order_by('-pk'))
+                                                queryset=RealEstate.objects.filter(category__name='Аренда').order_by(
+                                                    '-pk'))
+
+        m = folium.Map(location=[55.7887400, 49.1221400], zoom_start=12, min_zoom=6)
+        for object in RentalFilter(self.request.GET,
+                                   queryset=RealEstate.objects.filter(category__name='Аренда').order_by('-pk')).qs:
+            popup = folium.Popup(
+                'Город: ' + str(object.city) + '</br></br>' + 'Район: ' + str(object.district) +
+                '</br></br>' + 'Площадь: ' + str(object.area) + '</br></br>' + 'Этаж: ' + str(object.floor) +
+                '</br></br>' + 'Кол-во комнат: ' + str(
+                    object.rooms) + '</br></br>' + 'Планировка: ' + object.layout +
+                '</br></br>' + 'Ремонт: ' + object.finishing + '</br></br>' + 'Сан.узел: ' + object.bathroom +
+                '</br></br>' + 'Балкон: ' + object.balcony + '</br></br>', max_width=300)
+
+            geolocator = Nominatim(user_agent="RealEstate")
+            print(f"{object.city}, {object.address}")
+            location = geolocator.geocode(f"{object.city}, {object.address}")
+            print(location)
+            if location is not None:
+                latitude = location.latitude
+                print(latitude)
+                longitude = location.longitude
+                print(longitude)
+                # Добавление объекта на карту
+                folium.Marker(location=[latitude, longitude], tooltip='Нажмите чтобы узнать больше',
+                              popup=popup).add_to(m)
+            else:
+                folium.Marker(location=[55.78809075, 49.21747788857183], tooltip='Нажмите чтобы узнать больше',
+                              popup=popup).add_to(m)
+        m = m._repr_html_()
+        context['map'] = m
         return context
 
     def get_queryset(self):
         queryset = super().get_queryset().filter(category__name='Аренда').order_by('-pk')
+        return RentalFilter(self.request.GET, queryset=queryset).qs
+
+
+class SellingRealEstatesPage(ListView):
+    model = RealEstate
+    template_name = 'RealEstateApp/SellingListPage.html'
+    paginate_by = 10
+    context_object_name = 'selling_objects'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['selling_filter'] = RentalFilter(self.request.GET,
+                                                 queryset=RealEstate.objects.filter(category__name='Продажа').order_by(
+                                                     '-pk'))
+        m = folium.Map(location=[55.7887400, 49.1221400], zoom_start=12, min_zoom=6)
+        for object in RentalFilter(self.request.GET,
+                                   queryset=RealEstate.objects.filter(category__name='Продажа').order_by('-pk')).qs:
+            popup = folium.Popup(
+                'Город: ' + str(object.city) + '</br></br>' + 'Район: ' + str(object.district) +
+                '</br></br>' + 'Площадь: ' + str(object.area) + '</br></br>' + 'Этаж: ' + str(object.floor) +
+                '</br></br>' + 'Кол-во комнат: ' + str(
+                    object.rooms) + '</br></br>' + 'Планировка: ' + object.layout +
+                '</br></br>' + 'Ремонт: ' + object.finishing + '</br></br>' + 'Сан.узел: ' + object.bathroom +
+                '</br></br>' + 'Балкон: ' + object.balcony + '</br></br>', max_width=300)
+
+            geolocator = Nominatim(user_agent="RealEstate")
+            print(f"{object.city}, {object.address}")
+            location = geolocator.geocode(f"{object.city}, {object.address}")
+            print(location)
+            if location is not None:
+                latitude = location.latitude
+                print(latitude)
+                longitude = location.longitude
+                print(longitude)
+                # Добавление объекта на карту
+                folium.Marker(location=[latitude, longitude], tooltip='Нажмите чтобы узнать больше',
+                              popup=popup).add_to(m)
+            else:
+                folium.Marker(location=[55.78809075, 49.21747788857183], tooltip='Нажмите чтобы узнать больше',
+                              popup=popup).add_to(m)
+        m = m._repr_html_()
+        context['map'] = m
+
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(category__name='Продажа').order_by('-pk')
         return RentalFilter(self.request.GET, queryset=queryset).qs
