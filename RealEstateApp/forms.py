@@ -3,9 +3,7 @@ from datetime import datetime, timedelta
 from bootstrap_datepicker_plus.widgets import DatePickerInput, TimePickerInput, DateTimePickerInput, MonthPickerInput, \
     YearPickerInput
 from django import forms
-from .models import TimeSlot
-
-
+from .models import TimeSlot, RealEstate
 
 
 class DateTimeForm(forms.ModelForm):
@@ -25,3 +23,9 @@ class DateTimeForm(forms.ModelForm):
 
             })
         }
+
+
+class AddingObjectForm(forms.ModelForm):
+    class Meta:
+        model = RealEstate
+        fields = '__all__'

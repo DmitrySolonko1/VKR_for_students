@@ -1,10 +1,12 @@
+from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
 from .models import RealEstate
 import folium
 from geopy.geocoders import Nominatim
 from .filters import *
-from .forms import DateTimeForm
+from .forms import DateTimeForm, AddingObjectForm
 
 
 # Create your views here.
@@ -21,8 +23,8 @@ class MainPage(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['rental_list'] = self.get_queryset().filter(category__name='Аренда').order_by('-pk')
-        context['sale_list'] = self.get_queryset().filter(category__name='Продажа').order_by('-pk')
+        context['rental_list'] = self.get_queryset().filter(category__name='Аренда').order_by('-pk')[:5]
+        context['sale_list'] = self.get_queryset().filter(category__name='Продажа').order_by('-pk')[:5]
         return context
 
 
@@ -48,21 +50,8 @@ class DetailRealEstatePage(DetailView):
 
         # getting geolocation
         geolocator = Nominatim(user_agent="RealEstate")
-        print(f"{self.object.city}, {self.object.address}")
-        location = geolocator.geocode(f"{self.object.city}, {self.object.address}")
-        print(location)
-        if location is not None:
-            latitude = location.latitude
-            print(latitude)
-            longitude = location.longitude
-            print(longitude)
-            # Добавление объекта на карту
-            folium.Marker(location=[latitude, longitude], tooltip='Нажмите чтобы узнать больше',
-                          popup=popup).add_to(m)
-        else:
-            folium.Marker(location=[55.78809075, 49.21747788857183], tooltip='Нажмите чтобы узнать больше',
-                          popup=popup).add_to(m)
-
+        folium.Marker(location=[self.object.latitude, self.object.longitude], tooltip='Нажмите чтобы узнать больше',
+                      popup=popup).add_to(m)
         m = m._repr_html_()
         context['map'] = m
         return context
@@ -72,7 +61,7 @@ class RentalRealEstatesPage(ListView):
     model = RealEstate
     context_object_name = 'rental_objects'
     template_name = 'RealEstateApp/RentalListPage.html'
-    paginate_by = 10
+    paginate_by = 4
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -92,20 +81,10 @@ class RentalRealEstatesPage(ListView):
                 '</br></br>' + 'Балкон: ' + object.balcony + '</br></br>', max_width=300)
 
             geolocator = Nominatim(user_agent="RealEstate")
-            print(f"{object.city}, {object.address}")
-            location = geolocator.geocode(f"{object.city}, {object.address}")
-            print(location)
-            if location is not None:
-                latitude = location.latitude
-                print(latitude)
-                longitude = location.longitude
-                print(longitude)
-                # Добавление объекта на карту
-                folium.Marker(location=[latitude, longitude], tooltip='Нажмите чтобы узнать больше',
-                              popup=popup).add_to(m)
-            else:
-                folium.Marker(location=[55.78809075, 49.21747788857183], tooltip='Нажмите чтобы узнать больше',
-                              popup=popup).add_to(m)
+
+            folium.Marker(location=[object.latitude, object.longitude], tooltip='Нажмите чтобы узнать больше',
+                          popup=popup).add_to(m)
+
         m = m._repr_html_()
         context['map'] = m
         return context
@@ -138,20 +117,9 @@ class SellingRealEstatesPage(ListView):
                 '</br></br>' + 'Балкон: ' + object.balcony + '</br></br>', max_width=300)
 
             geolocator = Nominatim(user_agent="RealEstate")
-            print(f"{object.city}, {object.address}")
-            location = geolocator.geocode(f"{object.city}, {object.address}")
-            print(location)
-            if location is not None:
-                latitude = location.latitude
-                print(latitude)
-                longitude = location.longitude
-                print(longitude)
-                # Добавление объекта на карту
-                folium.Marker(location=[latitude, longitude], tooltip='Нажмите чтобы узнать больше',
-                              popup=popup).add_to(m)
-            else:
-                folium.Marker(location=[55.78809075, 49.21747788857183], tooltip='Нажмите чтобы узнать больше',
-                              popup=popup).add_to(m)
+            folium.Marker(location=[object.latitude, object.longitude], tooltip='Нажмите чтобы узнать больше',
+                          popup=popup).add_to(m)
+
         m = m._repr_html_()
         context['map'] = m
 
@@ -161,21 +129,6 @@ class SellingRealEstatesPage(ListView):
         queryset = super().get_queryset().filter(category__name='Продажа').order_by('-pk')
         return RentalFilter(self.request.GET, queryset=queryset).qs
 
-
-# def book_object(request, object_id):
-#     object = RealEstate.objects.get(pk=object_id)
-#     if request.method == 'POST':
-#         form = DateTimeForm(request.POST)
-#         if form.is_valid():
-#             time_slot = form.cleaned_data['time_slot']
-#             if time_slot.is_available:
-#                 booking = Booking.objects.create(object=object, time_slot=time_slot, client_name=form.cleaned_data['client_name'])
-#                 time_slot.is_available = False
-#                 time_slot.save()
-#                 return redirect('confirmation', booking_id=booking.id)
-#     else:
-#         form = DateTimeForm()
-#     return render(request, 'RealEstateApp/BookingObject.html', {'object': object, 'form': form})
 
 class BookingObject(DetailView):
     model = RealEstate
@@ -203,3 +156,14 @@ class BookingObject(DetailView):
 
 class BookingConfirmation(TemplateView):
     template_name = 'RealEstateApp/BookingConfirmation.html'
+
+
+class ContactsPage(TemplateView):
+    template_name = 'RealEstateApp/ContactsPage.html'
+
+
+class AddingObject(CreateView):
+    model = RealEstate
+    form_class = AddingObjectForm
+    template_name = 'RealEstateApp/AddingObject.html'
+    success_url = reverse_lazy('main_page')

@@ -1,0 +1,51 @@
+{%extends 'base_layout.html' %}
+{% load static %}
+{% load humanize %}
+{% load layout_filters %}
+{% block styles %}
+
+<link rel="stylesheet" href="{% static 'css/ContactsPage.css' %}">
+{% endblock %}
+
+{% block title %}Добавление объекта{% endblock %}
+
+{% block header %}
+{% include 'RealEstateApp/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div class="contacts__container _container">
+    <div class="contacts__body">
+        <div class="contacts__phone contacts">
+            <div class="label">Номер телефона:</div>
+            <div class="info"><a href="tel:+79600986421" class="phone__link">+7 960 098 64 21</a></div>
+        </div>
+        <div class="contacts__mail contacts">
+            <div class="label">Email:</div>
+            <div class="info"><a href="mailto:solonkodima86@gmail.com" class="phone__link">solonkodima86@gmail.com</a></div>
+        </div>
+        <div class="contacts__address contacts">
+            <div class="label">Адрес:</div>
+            <div class="info">респ. Татарстан, г. Казань, ул. Маяковского, д. 20</div>
+        </div>
+        <div class="contacts__vk contacts">
+            <div class="label">Вконтакте:</div>
+            <div class="info"><a href="https://vk.com/dima_lenk0v" class="phone__link">https://vk.com/dima_lenk0v</a></div>
+        </div>
+        <div class="contacts__tg contacts">
+            <div class="label">Telegram:</div>
+            <div class="info"><a href="https://vk.com/dima_lenk0v" class="phone__link">@DmitrySolonko</a></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+{% include 'RealEstateApp/footer.html' %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/DetailRealEstate.js'%}"></script>
+{% endblock %}

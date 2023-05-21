@@ -1,0 +1,60 @@
+.adding__container{
+
+}
+
+.adding__body{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form__field{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+.form__field.id_children, .form__field.id_animals{
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 5px 0;
+}
+select {
+    padding: 5px;
+}
+input{
+    padding: 5px;
+    border: 1px solid black;
+}
+input#id_animals, input#id_children{
+    margin: 1px 10px 0 10px;;
+    padding: 5px;
+}
+textarea#id_description{
+    padding: 5px;
+    border: 1px solid black;
+}
+label{
+    font-weight: 100;
+    padding: 10px 0;
+}
+p{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.adding__button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    text-align: center;
+    margin: 20px 0;
+    padding: 10px 20px;;
+    background: #0468FF;
+    font-size: 16px;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+}

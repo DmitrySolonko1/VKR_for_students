@@ -182,6 +182,7 @@ a{
 .page__navigation{
     display: flex;
     justify-content: center;
+    padding: 30px;
 }
 .pagination{
 
@@ -189,6 +190,7 @@ a{
 .pagination__list {
     display: flex;
     justify-content: center;
+    padding: 10px 30px 30px 30px;
 }
 .pagination__item {
     padding: 5px 10px;

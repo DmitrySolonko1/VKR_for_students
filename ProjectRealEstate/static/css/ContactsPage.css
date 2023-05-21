@@ -1,0 +1,47 @@
+.contacts__container {
+}
+
+.contacts__body {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.contacts__phone {
+}
+.contacts {
+    display: flex;
+    padding: 20px;
+}
+.label {
+    font-size: 16px;
+    font-weight: 100;
+    line-height: 20px;
+    padding: 0 10px;
+}
+.info {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+}
+.phone__link {
+    color: black;
+    font-weight: 600;
+}
+.contacts__mail {
+    color: black;
+    font-weight: 600;
+}
+.contacts__address {
+    color: black;
+    font-weight: 600;
+}
+.contacts__vk {
+    color: black;
+    font-weight: 600;
+}
+.contacts__tg {
+    color: black;
+    font-weight: 600;
+}

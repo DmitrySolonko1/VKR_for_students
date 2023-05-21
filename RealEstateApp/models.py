@@ -26,6 +26,7 @@ CHOICE_FINISHING = (
     ('Косметический', 'Косметический'),
     ('Капитальный', 'Капитальный'),
     ('евроремонт', 'евроремонт'),
+    ('дизайнерский', 'дизайнерский'),
     ('ремонт премиум-класса', 'ремонт премиум-класса'),
 )
 CHOICE_TYPE = (
@@ -63,6 +64,8 @@ class RealEstate(models.Model):
     city = models.CharField(max_length=30, choices=CHOICE_CITY, verbose_name='Город')
     district = models.CharField(max_length=70, choices=CHOICE_DISTRICT, verbose_name='Район')
     address = models.CharField(max_length=255, verbose_name='Адрес')
+    latitude = models.FloatField(blank=True, null=True, verbose_name='Ширина')
+    longitude = models.FloatField(blank=True, null=True, verbose_name='Долгота')
     area = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='Площадь')
     floor = models.IntegerField(verbose_name='Этаж')
     rooms = models.IntegerField(verbose_name='Кол-во комнат')
@@ -82,7 +85,7 @@ class RealEstate(models.Model):
     status = models.CharField(max_length=50, choices=CHOICE_STATUS, verbose_name='Статус')
 
     def __str__(self):
-        return "ID объекта: "+str(self.pk)+'; '+str(self.district) + ", " + str(self.address)
+        return "ID объекта: " + str(self.pk) + '; ' + str(self.district) + ", " + str(self.address)
 
     def get_absolute_url(self):
         return reverse("RealEstate_object", kwargs={'pk': self.pk})

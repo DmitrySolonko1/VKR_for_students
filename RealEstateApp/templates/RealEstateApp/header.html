@@ -14,17 +14,14 @@
                         <a href="{% url 'selling_list' %}" class="header__link">Покупка</a>
                     </li>
                     <li class="header__item">
-                        <a href="#" class="header__link ">Блог</a>
-                    </li>
-                    <li class="header__item">
-                        <a href="#" class="header__link ">Контакты</a>
+                        <a href="{% url 'contacts' %}" class="header__link ">Контакты</a>
                     </li>
                 </ul>
             </nav>
             <div class="header__buttons">
                 {% if user.is_staff %}
                 <div class="add_order__button">
-                    <a href="#" class="add_order__link">Разместить объявление</a>
+                    <a href="{% url 'adding_object' %}" class="add_order__link">Разместить объявление</a>
                 </div>
                 {% endif %}
                 {% if user.is_authenticated %}
