@@ -10,4 +10,5 @@ urlpatterns = [
     path('contacts', ContactsPage.as_view(), name='contacts'),
     path('book/<int:pk>/', BookingObject.as_view(), name='book_object'),
     path('add_object', AddingObject.as_view(), name='adding_object'),
+    path('create_contract', CreateContract.as_view(), name='create_contract')
 ]

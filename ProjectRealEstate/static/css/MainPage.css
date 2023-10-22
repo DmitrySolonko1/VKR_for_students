@@ -118,10 +118,12 @@
   margin: 0px -40px 0 -20px;
 
 }
+
  .slick-dots{
   display: flex;
   align-items: center;
   justify-content: center;
+
 }
  .slick-dots li{
   margin: 10px 10px;

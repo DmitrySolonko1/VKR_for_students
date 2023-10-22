@@ -1,0 +1,41 @@
+{%extends 'base_layout.html' %}
+{% load static %}
+{% load humanize %}
+{% load layout_filters %}
+{% block styles %}
+
+<link rel="stylesheet" href="{% static 'css/AddingObject.css' %}">
+{% endblock %}
+
+{% block title %}Создание договора{% endblock %}
+
+{% block header %}
+{% include 'RealEstateApp/header.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div class="adding__container _container">
+    <div class="adding__body">
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form__field {{field.id_for_label}}">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{field}}
+            </div>
+            {% endfor %}
+            <button type="submit" class="adding__button">Добавить</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+{% include 'RealEstateApp/footer.html' %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/DetailRealEstate.js'%}"></script>
+{% endblock %}

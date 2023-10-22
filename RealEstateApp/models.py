@@ -143,3 +143,26 @@ class Booking(models.Model):
     class Meta:
         verbose_name = 'Бронь'
         verbose_name_plural = 'Бронь'
+
+
+class Contracts(models.Model):
+    object = models.ForeignKey(RealEstate, on_delete=models.CASCADE, verbose_name='Объект')
+    client_name = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Клиент',
+                                    limit_choices_to={'is_staff': False}, related_name='contract_client')
+    realtor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Риелтор',
+                                limit_choices_to={'is_staff': True}, related_name='contract_rieltor')
+    price = models.DecimalField(max_digits=15, decimal_places=1, verbose_name='Стоимость')
+    date = models.DateField(verbose_name='Дата')
+
+    def __str__(self):
+        return str(self.client_name)
+
+
+    def save(self, *args, **kwargs):
+        # Вычисление стоимости контракта как стоимость объекта + 20%
+        self.price = float(self.object.price) * 1.2
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Договор'
+        verbose_name_plural = 'Договора'

@@ -132,3 +132,11 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGOUT_REDIRECT_URL = 'main_page'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'dmitry.solonko.2001@yandex.ru'
+EMAIL_HOST_PASSWORD = 'vmoldyhtzuaotscl'
+EMAIL_USE_TSL = False
+EMAIL_USE_SSL = True

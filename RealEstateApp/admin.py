@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import RealEstate, Category, Photo, TimeSlot, Booking
+from .models import RealEstate, Category, Photo, TimeSlot, Booking, Contracts
 
 
 # Register your models here.
@@ -46,6 +46,7 @@ admin.site.register(RealEstate, RealEstateAdmin)
 admin.site.register(Category)
 admin.site.register(Booking, BookingAdmin)
 admin.site.register(Photo, PhotoAdmin)
+admin.site.register(Contracts)
 
 admin.site.site_title = 'Управление сервисом'
 admin.site.site_header = 'Управление сервисом'

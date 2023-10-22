@@ -21,6 +21,9 @@
             <div class="header__buttons">
                 {% if user.is_staff %}
                 <div class="add_order__button">
+                    <a href="{% url 'create_contract' %}" class="add_order__link">Заключить договор</a>
+                </div>
+                <div class="add_order__button">
                     <a href="{% url 'adding_object' %}" class="add_order__link">Разместить объявление</a>
                 </div>
                 {% endif %}

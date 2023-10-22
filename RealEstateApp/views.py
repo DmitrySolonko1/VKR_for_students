@@ -1,3 +1,4 @@
+from io import BytesIO
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -6,7 +7,9 @@ from .models import RealEstate
 import folium
 from geopy.geocoders import Nominatim
 from .filters import *
-from .forms import DateTimeForm, AddingObjectForm
+from .forms import DateTimeForm, AddingObjectForm, CreateContractForm
+import docx
+from django.core.mail import EmailMessage
 
 
 # Create your views here.
@@ -167,3 +170,51 @@ class AddingObject(CreateView):
     form_class = AddingObjectForm
     template_name = 'RealEstateApp/AddingObject.html'
     success_url = reverse_lazy('main_page')
+
+
+class CreateContract(CreateView):
+    model = Contracts
+    form_class = CreateContractForm
+    template_name = 'RealEstateApp/CreateContract.html'
+    success_url = reverse_lazy('main_page')
+
+    def form_valid(self, form):
+        # Автоматическое заполнение поля стоимости в форме перед сохранением
+        form.instance.price = float(form.instance.object.price) * 1.2
+
+        # Создание Word-документа
+        doc = docx.Document()
+        # Получение данных из базы
+        contract = form.save(commit=False)  # Сохраняем форму, но не сохраняем в базу данных пока
+        object = contract.object
+        client_name = contract.client_name
+        realtor = contract.realtor
+        price = float(object.price) * 1.2
+        date = contract.date
+        print(object, client_name, realtor, price, date)
+        print('Заполнение Word-документа данными')
+        # Заполнение Word-документа данными
+        doc.add_paragraph(f"Объект недвижимости: {object}")
+        doc.add_paragraph(f"Клиент: {client_name}")
+        doc.add_paragraph(f"Риелтор: {realtor}")
+        doc.add_paragraph(f"Стоимость: {price}")
+        doc.add_paragraph(f"Дата: {date}")
+        print('Сохранение Word-документа в памяти')
+        # Сохранение Word-документа в памяти
+        doc_buffer = BytesIO()
+        doc.save(doc_buffer)
+        doc_buffer.seek(0)
+        print('Отправка Word-документа на почту')
+        # Отправка Word-документа на почту
+        email = EmailMessage(
+            subject='Договор',
+            body='Пожалуйста, найдите прикрепленный договор.',
+            from_email='dmitry.solonko.2001@yandex.ru',
+            to=[client_name.email],  # Здесь использовано поле email из модели клиент
+        )
+        email.attach('contract.docx', doc_buffer.getvalue(),
+                     'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        email.send()
+        contract.save()  # Теперь сохраняем объект контракта в базу данных
+        return super().form_valid(form)
+
