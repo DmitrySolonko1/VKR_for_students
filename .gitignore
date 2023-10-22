@@ -1,0 +1,11 @@
+**/.idea
+**/__pycache__
+**/.vscode
+venv
+env
+*.xml
+
+radiography_image
+
+db.sqlite3
+
